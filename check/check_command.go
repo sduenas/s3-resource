@@ -3,8 +3,8 @@ package check
 import (
 	"errors"
 
-	"github.com/concourse/s3-resource"
-	"github.com/concourse/s3-resource/versions"
+	"github.com/sduenas/s3-resource"
+	"github.com/sduenas/s3-resource/versions"
 )
 
 type CheckCommand struct {
@@ -21,6 +21,8 @@ func (command *CheckCommand) Run(request CheckRequest) (CheckResponse, error) {
 	if ok, message := request.Source.IsValid(); !ok {
 		return CheckResponse{}, errors.New(message)
 	}
+
+    s3resource.Fatal("Checkpoint", err)
 
 	if request.Source.Regexp != "" {
 		return command.checkByRegex(request), nil
